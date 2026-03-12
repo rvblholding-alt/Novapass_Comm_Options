@@ -3,25 +3,20 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>NovaPass — Comparatif Architectures</title>
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist+Mono:wght@300;400;500&family=Geist:wght@300;400;500&display=swap" rel="stylesheet">
+<title>NovaPass — ComplyStation</title>
+<link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@300;400;500&family=Geist:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg:       #0c0c0c;
-    --bg2:      #111111;
-    --bg3:      #161616;
-    --line:     #222222;
-    --line2:    #2e2e2e;
-    --text:     #f0f0f0;
-    --text2:    #888888;
-    --text3:    #444444;
-    --accent:   #e8e8e8;
-    --green:    #4caf7d;
-    --yellow:   #c9a84c;
-    --red:      #c0392b;
-    --ws:       #f0f0f0;
-    --wg:       #888888;
-    --np:       #555555;
+    --bg:    #0c0c0c;
+    --bg2:   #111111;
+    --line:  #1e1e1e;
+    --line2: #2a2a2a;
+    --text:  #f0f0f0;
+    --muted: rgba(240,240,240,0.55);
+    --dim:   rgba(240,240,240,0.25);
+    --green:  #4caf7d;
+    --yellow: #c9a84c;
+    --red:    #b84040;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -38,318 +33,220 @@
 
   /* HEADER */
   header {
-    padding: 32px 80px 24px;
+    padding: 24px 72px;
     border-bottom: 1px solid var(--line);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
   }
 
-  .header-label { display: none; }
-
-  h1 {
+  .logo {
     font-family: 'Geist Mono', monospace;
+    font-size: 13px;
     font-weight: 500;
-    font-size: 15px;
-    line-height: 1.2;
-    letter-spacing: 0.18em;
+    letter-spacing: 0.14em;
     text-transform: uppercase;
     color: var(--text);
-    margin-bottom: 0;
   }
 
-  h1 em { display: none; }
+  .header-meta {
+    font-family: 'Geist Mono', monospace;
+    font-size: 11px;
+    color: var(--dim);
+    letter-spacing: 0.07em;
+  }
 
-  .header-sub { display: none; }
-
-  /* INTRO CARDS */
-  .intro {
+  /* ARCH STRIP */
+  .arch-strip {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    border-bottom: 1px solid var(--line);
+    border-bottom: 1px solid var(--line2);
   }
 
-  .intro-card {
-    padding: 14px 32px;
+  .arch-card {
+    padding: 16px 28px;
     border-right: 1px solid var(--line);
-    position: relative;
   }
 
-  .intro-card:last-child { border-right: none; }
+  .arch-card:last-child { border-right: none; }
+  .arch-card.hl { background: var(--bg2); }
 
-  .intro-num {
+  .arch-num {
     font-family: 'Geist Mono', monospace;
     font-size: 10px;
-    letter-spacing: 0.12em;
-    color: var(--text);
-    margin-bottom: 4px;
+    letter-spacing: 0.13em;
     text-transform: uppercase;
+    color: var(--dim);
+    margin-bottom: 3px;
   }
 
-  .intro-name {
-    font-family: 'Geist', sans-serif;
-    font-size: 15px;
+  .arch-name {
+    font-size: 14px;
     font-weight: 500;
     color: var(--text);
     margin-bottom: 2px;
-    line-height: 1.2;
   }
 
-  .intro-tech {
+  .arch-tech {
     font-family: 'Geist Mono', monospace;
     font-size: 10px;
-    color: var(--text);
-    letter-spacing: 0.04em;
-    margin-bottom: 6px;
-    opacity: 0.5;
+    color: var(--muted);
+    letter-spacing: 0.03em;
+    margin-bottom: 5px;
   }
 
-  .intro-desc {
+  .arch-desc {
     font-size: 12px;
-    color: var(--text);
+    color: var(--muted);
     line-height: 1.5;
-    opacity: 0.6;
   }
 
-  .intro-card.recommended {
-    background: var(--bg2);
-  }
-
-  /* TABLE SECTION */
-  .table-section {
-    padding: 32px 0 0;
-  }
-
-  .table-header {
-    padding: 0 80px 16px;
-    display: flex;
-    align-items: baseline;
-    gap: 16px;
-  }
-
-  .table-header-label {
-    font-family: 'Geist Mono', monospace;
-    font-size: 11px;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--text3);
-  }
-
-  /* THE TABLE */
+  /* TABLE */
   .comp-table {
     width: 100%;
     border-collapse: collapse;
-    border-top: 1px solid var(--line);
   }
 
-  /* Column headers */
   .comp-table thead tr {
-    border-bottom: 1px solid var(--line);
+    border-bottom: 1px solid var(--line2);
   }
 
   .comp-table thead th {
-    padding: 20px 32px;
-    text-align: left;
+    padding: 13px 22px;
     font-family: 'Geist Mono', monospace;
-    font-size: 11px;
+    font-size: 10px;
     font-weight: 400;
-    letter-spacing: 0.12em;
+    letter-spacing: 0.13em;
     text-transform: uppercase;
-    color: var(--text3);
+    color: var(--dim);
+    text-align: left;
     background: var(--bg);
   }
 
-  .comp-table thead th:first-child {
-    padding-left: 80px;
-    width: 220px;
-  }
+  .comp-table thead th:first-child { padding-left: 72px; width: 200px; }
+  .comp-table thead th:last-child  { padding-right: 72px; color: var(--text); }
 
-  .comp-table thead th.col-ws { color: var(--ws); }
-  .comp-table thead th.col-wg { color: var(--wg); }
-  .comp-table thead th.col-np { color: var(--np); }
-
-  /* Rows */
   .comp-table tbody tr {
     border-bottom: 1px solid var(--line);
-    transition: background 0.15s;
+    transition: background 0.12s;
   }
 
-  .comp-table tbody tr:hover {
-    background: var(--bg2);
-  }
-
-  .comp-table tbody tr:last-child {
-    border-bottom: none;
-  }
+  .comp-table tbody tr:hover { background: var(--bg2); }
 
   .comp-table td {
-    padding: 28px 32px;
+    padding: 20px 22px;
     vertical-align: top;
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--muted);
   }
 
-  .comp-table td:first-child {
-    padding-left: 80px;
-  }
+  .comp-table td:first-child { padding-left: 72px; }
+  .comp-table td:last-child  { padding-right: 72px; }
 
-  .comp-table td:last-child {
-    padding-right: 80px;
-  }
-
-  /* Criterion cell */
   .crit-name {
-    font-size: 14px;
-    font-weight: 400;
+    font-size: 13px;
+    font-weight: 500;
     color: var(--text);
-    margin-bottom: 4px;
-    line-height: 1.3;
+    margin-bottom: 2px;
   }
 
   .crit-sub {
     font-family: 'Geist Mono', monospace;
     font-size: 10px;
-    color: var(--text3);
-    letter-spacing: 0.05em;
+    color: var(--dim);
+    letter-spacing: 0.04em;
   }
 
   /* Score badge */
-  .score {
+  .sc {
     display: inline-block;
     font-family: 'Geist Mono', monospace;
     font-size: 10px;
     font-weight: 500;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
-    padding: 3px 9px;
+    padding: 2px 8px;
     border-radius: 2px;
-    margin-bottom: 10px;
+    margin-bottom: 7px;
   }
 
-  .score-good {
-    background: rgba(76, 175, 125, 0.12);
-    color: var(--green);
-    border: 1px solid rgba(76, 175, 125, 0.2);
-  }
+  .sc-g { background: rgba(76,175,125,0.10); color: var(--green);  border: 1px solid rgba(76,175,125,0.18); }
+  .sc-y { background: rgba(201,168,76,0.10); color: var(--yellow); border: 1px solid rgba(201,168,76,0.18); }
+  .sc-r { background: rgba(184,64,64,0.10);  color: var(--red);    border: 1px solid rgba(184,64,64,0.18); }
 
-  .score-mid {
-    background: rgba(201, 168, 76, 0.10);
-    color: var(--yellow);
-    border: 1px solid rgba(201, 168, 76, 0.2);
-  }
-
-  .score-bad {
-    background: rgba(192, 57, 43, 0.10);
-    color: var(--red);
-    border: 1px solid rgba(192, 57, 43, 0.2);
-  }
-
-  /* Cell content */
-  .cell-content {
-    font-size: 13px;
-    color: var(--text2);
-    line-height: 1.6;
-    font-weight: 300;
-  }
-
-  /* VERDICT */
-  .verdict {
+  /* Nuance note */
+  .nuance {
+    margin-top: 8px;
+    padding-top: 8px;
     border-top: 1px solid var(--line);
+    font-size: 11px;
+    color: var(--dim);
+    font-style: italic;
+    line-height: 1.55;
+  }
+
+  /* CONCLUSION */
+  .conclusion {
+    border-top: 1px solid var(--line2);
     display: grid;
     grid-template-columns: repeat(3, 1fr);
   }
 
-  .verdict-card {
-    padding: 48px 80px 48px;
+  .concl-card {
+    padding: 28px 28px;
     border-right: 1px solid var(--line);
   }
 
-  .verdict-card:last-child {
-    border-right: none;
-    padding-left: 48px;
-  }
+  .concl-card:first-child { padding-left: 72px; }
+  .concl-card:last-child  { border-right: none; padding-right: 72px; background: var(--bg2); }
 
-  .verdict-card:first-child {
-    padding-right: 48px;
-  }
-
-  .verdict-card:nth-child(2) {
-    padding-left: 48px;
-    padding-right: 48px;
-  }
-
-  .verdict-label {
+  .concl-label {
     font-family: 'Geist Mono', monospace;
     font-size: 10px;
-    letter-spacing: 0.18em;
+    letter-spacing: 0.13em;
     text-transform: uppercase;
-    color: var(--text3);
-    margin-bottom: 16px;
+    color: var(--dim);
+    margin-bottom: 8px;
   }
 
-  .verdict-title {
-    font-family: 'Instrument Serif', serif;
-    font-size: 18px;
+  .concl-title {
+    font-size: 14px;
+    font-weight: 500;
     color: var(--text);
-    margin-bottom: 12px;
-    line-height: 1.3;
+    margin-bottom: 10px;
   }
 
-  .verdict-text {
+  .concl-text {
     font-size: 13px;
-    color: var(--text2);
-    line-height: 1.7;
-  }
-
-  .verdict-card.winner {
-    background: var(--bg2);
-  }
-
-  .verdict-card.winner .verdict-title {
-    color: var(--green);
+    color: var(--muted);
+    line-height: 1.65;
   }
 
   /* FOOTER */
   footer {
-    padding: 32px 80px;
+    padding: 18px 72px;
     border-top: 1px solid var(--line);
     display: flex;
     justify-content: space-between;
     align-items: center;
   }
 
-  .footer-brand {
-    font-family: 'Instrument Serif', serif;
-    font-size: 16px;
-    color: var(--text2);
-  }
-
-  .footer-meta {
+  .footer-l {
     font-family: 'Geist Mono', monospace;
     font-size: 11px;
-    color: var(--text3);
-    letter-spacing: 0.08em;
-  }
-
-  /* ANIMATIONS */
-  .reveal {
-    opacity: 0;
-    transform: translateY(12px);
-    transition: opacity 0.5s ease, transform 0.5s ease;
-  }
-  .reveal.visible {
-    opacity: 1;
-    transform: translateY(0);
+    color: var(--dim);
+    letter-spacing: 0.07em;
   }
 
   @media (max-width: 960px) {
-    header, .table-header, footer { padding-left: 24px; padding-right: 24px; }
-    .intro { grid-template-columns: 1fr; }
-    .intro-card { border-right: none; border-bottom: 1px solid var(--line); padding: 32px 24px; }
-    .comp-table thead th:first-child, .comp-table td:first-child { padding-left: 24px; }
-    .comp-table td:last-child { padding-right: 24px; }
-    .comp-table thead th, .comp-table td { padding: 20px 16px; }
-    .verdict { grid-template-columns: 1fr; }
-    .verdict-card, .verdict-card:first-child, .verdict-card:last-child, .verdict-card:nth-child(2) {
-      padding: 32px 24px;
-      border-right: none;
-      border-bottom: 1px solid var(--line);
-    }
+    header, footer { padding-left: 20px; padding-right: 20px; }
+    .arch-strip, .conclusion { grid-template-columns: 1fr; }
+    .arch-card, .concl-card { border-right: none; border-bottom: 1px solid var(--line); padding: 14px 20px; }
+    .concl-card:first-child, .concl-card:last-child { padding-left: 20px; padding-right: 20px; }
+    .comp-table thead th:first-child, .comp-table td:first-child { padding-left: 20px; }
+    .comp-table thead th:last-child,  .comp-table td:last-child  { padding-right: 20px; }
+    .comp-table thead th, .comp-table td { padding: 14px 12px; }
   }
 </style>
 </head>
@@ -357,237 +254,231 @@
 
 <!-- HEADER -->
 <header>
-  <h1>NovaPass &mdash; ComplyStation</h1>
+  <div class="logo">NovaPass &mdash; ComplyStation</div>
+  <div class="header-meta">Comparatif architectures de communication &mdash; Mars 2026</div>
 </header>
 
-<!-- INTRO CARDS -->
-<div class="intro reveal">
-  <div class="intro-card">
-    <div class="intro-num">Architecture 01</div>
-    <div class="intro-name">VPN + NanoPi</div>
-    <div class="intro-tech">Routeur intermédiaire / Machine dédiée</div>
-    <p class="intro-desc">Une brique hardware supplémentaire (type NanoPi) est installée sur chaque site entre le réseau local et le cloud. Elle gère le tunnel VPN et sert de passerelle.</p>
+<!-- ARCH STRIP -->
+<div class="arch-strip">
+  <div class="arch-card">
+    <div class="arch-num">Architecture 01</div>
+    <div class="arch-name">VPN + NanoPi</div>
+    <div class="arch-tech">Routeur intermédiaire / Machine dédiée</div>
+    <div class="arch-desc">Une brique hardware supplémentaire installée sur chaque site entre le réseau local et le cloud. Elle gère le tunnel VPN et sert de passerelle.</div>
   </div>
-  <div class="intro-card">
-    <div class="intro-num">Architecture 02</div>
-    <div class="intro-name">WireGuard VPN</div>
-    <div class="intro-tech">Tunnel VPN logiciel / Peer-to-peer</div>
-    <p class="intro-desc">Protocole VPN moderne intégré directement dans le firmware du Master. Pas de hardware intermédiaire, mais une configuration réseau requise sur chaque site.</p>
+  <div class="arch-card">
+    <div class="arch-num">Architecture 02</div>
+    <div class="arch-name">WireGuard VPN</div>
+    <div class="arch-tech">Tunnel VPN logiciel / Peer-to-peer</div>
+    <div class="arch-desc">Protocole VPN moderne intégré dans le firmware du Master. Pas de hardware intermédiaire, mais une configuration réseau requise sur chaque site.</div>
   </div>
-  <div class="intro-card recommended">
-    <div class="intro-num">Architecture 03</div>
-    <div class="intro-name">WebSocket + mTLS</div>
-    <div class="intro-tech">WSS / TLS 1.3 / Certificat X.509 par device</div>
-    <p class="intro-desc">Connexion WebSocket sécurisée initiée par le Master directement vers ComplyStation. Certificat gravé en usine. Aucune configuration réseau côté client.</p>
+  <div class="arch-card hl">
+    <div class="arch-num">Architecture 03</div>
+    <div class="arch-name">WebSocket + mTLS</div>
+    <div class="arch-tech">WSS / TLS 1.3 / Certificat X.509 par device</div>
+    <div class="arch-desc">Connexion WebSocket sécurisée initiée par le Master vers ComplyStation. Certificat gravé en usine. Aucune configuration réseau côté client en environnement standard.</div>
   </div>
 </div>
 
-<!-- TABLE -->
-<div class="table-section">
-  <div class="table-header">
-    <span class="table-header-label">Tableau comparatif</span>
+<!-- COMPARISON TABLE -->
+<table class="comp-table">
+  <thead>
+    <tr>
+      <th>Critère</th>
+      <th>VPN + NanoPi</th>
+      <th>WireGuard VPN</th>
+      <th>WebSocket + mTLS</th>
+    </tr>
+  </thead>
+  <tbody>
+
+    <tr>
+      <td>
+        <div class="crit-name">Facilité d'industrialisation</div>
+        <div class="crit-sub">Production, stock, logistique</div>
+      </td>
+      <td>
+        <div class="sc sc-r">Difficile</div>
+        <div>Hardware supplémentaire à produire, stocker, livrer et maintenir sur chaque site.</div>
+      </td>
+      <td>
+        <div class="sc sc-y">Modéré</div>
+        <div>Pas de hardware additionnel, mais la configuration VPN doit être standardisée et provisionnée de manière fiable à chaque déploiement.</div>
+      </td>
+      <td>
+        <div class="sc sc-g">Bon — sous conditions</div>
+        <div>Certificat X.509 gravé en usine. Très industrialisable pour un produit appliance/cloud à condition de maîtriser la PKI.</div>
+        <div class="nuance">La complexité ne disparaît pas : elle est déplacée vers la chaîne de fabrication (génération, injection, protection de la clé privée, révocation, renouvellement). Un investissement plateforme réel.</div>
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        <div class="crit-name">Facilité d'installation</div>
+        <div class="crit-sub">Expérience installateur terrain</div>
+      </td>
+      <td>
+        <div class="sc sc-r">Complexe</div>
+        <div>Deux équipements à poser, raccorder et configurer sur site. Chaque installation est unique.</div>
+      </td>
+      <td>
+        <div class="sc sc-y">Acceptable</div>
+        <div>Pas de boîtier supplémentaire, mais la configuration des clés WireGuard et des endpoints requiert une compétence technique.</div>
+      </td>
+      <td>
+        <div class="sc sc-g">Plug &amp; Play</div>
+        <div>Brancher le câble réseau et alimenter. Le Master se connecte seul à ComplyStation sur le port 443. Zéro configuration réseau en environnement standard.</div>
+        <div class="nuance">Pas une universalité absolue : proxy sortant, inspection TLS ou filtrage FQDN peuvent nécessiter un travail réseau même sur le port 443.</div>
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        <div class="crit-name">Sécurité</div>
+        <div class="crit-sub">Authentification, chiffrement, robustesse</div>
+      </td>
+      <td>
+        <div class="sc sc-g">Solide</div>
+        <div>Tunnel chiffré, isolation OT/IT physique possible. Niveau dépendant de la qualité d'intégration et d'administration du boîtier intermédiaire.</div>
+      </td>
+      <td>
+        <div class="sc sc-g">Très solide</div>
+        <div>Chiffrement moderne (ChaCha20, Curve25519), protocole audité, intégré au kernel Linux. Excellent tunnel réseau sécurisé.</div>
+      </td>
+      <td>
+        <div class="sc sc-g">Très solide</div>
+        <div>TLS 1.3 + certificat X.509 unique par device (mTLS). Excellent canal applicatif fortement authentifié.</div>
+        <div class="nuance">WireGuard et WebSocket + mTLS ne sont pas comparables sur une même échelle : l'un est un tunnel réseau, l'autre une architecture applicative centrée sur l'identité du device. Les deux peuvent atteindre un niveau industriel s'ils sont bien implémentés.</div>
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        <div class="crit-name">Résilience de l'installation</div>
+        <div class="crit-sub">Fiabilité, points de défaillance</div>
+      </td>
+      <td>
+        <div class="sc sc-r">Risquée</div>
+        <div>Le NanoPi est un point de défaillance supplémentaire. Panne hardware ou corruption du système = site hors ligne.</div>
+      </td>
+      <td>
+        <div class="sc sc-g">Bonne</div>
+        <div>Pas de hardware intermédiaire. La résilience dépend du Master et de la connexion internet.</div>
+      </td>
+      <td>
+        <div class="sc sc-g">Bonne</div>
+        <div>Pas de hardware intermédiaire. Reconnexion automatique. Décisions d'accès 100% locales en cas de coupure réseau.</div>
+        <div class="nuance">La résilience dépend avant tout de l'implémentation : watchdog local, bufferisation, mode offline, rotation de certificats. Un système WireGuard bien conçu peut offrir une résilience équivalente.</div>
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        <div class="crit-name">Pilotage à distance</div>
+        <div class="crit-sub">Supervision, maintenance, SAV</div>
+      </td>
+      <td>
+        <div class="sc sc-y">Possible</div>
+        <div>Accessible via le tunnel VPN, mais le NanoPi doit lui-même être opérationnel — couche de dépendance supplémentaire.</div>
+      </td>
+      <td>
+        <div class="sc sc-y">Possible</div>
+        <div>Accès distant via le tunnel WireGuard. Fournit un transport réseau, mais pas les états métier, logs et alarmes applicatifs nativement.</div>
+      </td>
+      <td>
+        <div class="sc sc-g">Natif</div>
+        <div>ComplyStation voit l'état de chaque Master en permanence. Logs, alarmes, configuration accessibles sans manipulation réseau. Meilleur choix pour une télégestion applicative native et continue.</div>
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        <div class="crit-name">Communication temps réel</div>
+        <div class="crit-sub">Bidirectionnel, latence, push</div>
+      </td>
+      <td>
+        <div class="sc sc-y">Acceptable</div>
+        <div>Possible mais traverse une couche intermédiaire. Latence potentiellement dégradée pour les commandes à distance.</div>
+      </td>
+      <td>
+        <div class="sc sc-y">Bonne</div>
+        <div>WireGuard est performant. Très bon transport temps réel pour du réseau encapsulé, si l'UDP est disponible et stable.</div>
+      </td>
+      <td>
+        <div class="sc sc-g">Natif</div>
+        <div>WebSocket est conçu pour la communication bidirectionnelle persistante. Push immédiat dans les deux sens, sans polling.</div>
+        <div class="nuance">La latence réelle dépend de la topologie réseau, de la qualité du lien et du backend — pas uniquement du protocole.</div>
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        <div class="crit-name">Compatibilité réseau</div>
+        <div class="crit-sub">Firewalls enterprise &amp; industriels</div>
+      </td>
+      <td>
+        <div class="sc sc-y">Variable</div>
+        <div>Dépend du protocole VPN configuré sur le NanoPi. Peut nécessiter des exceptions firewall spécifiques selon les environnements.</div>
+      </td>
+      <td>
+        <div class="sc sc-r">Risqué</div>
+        <div>WireGuard fonctionne exclusivement sur UDP. Dans des environnements très filtrés, l'UDP peut poser problème.</div>
+        <div class="nuance">L'ampleur varie selon les sites. Pas systématiquement bloquant, mais un risque réel à évaluer terrain par terrain avant de retenir cette architecture.</div>
+      </td>
+      <td>
+        <div class="sc sc-g">Favorable</div>
+        <div>Port 443 TCP — identique au trafic HTTPS standard. Souvent le meilleur choix pour maximiser les chances de passage en sortie réseau.</div>
+        <div class="nuance">Pas une universalité absolue : proxy avec inspection TLS ou liste blanche FQDN peuvent nécessiter une exception même sur le port 443.</div>
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        <div class="crit-name">Coût &amp; scalabilité</div>
+        <div class="crit-sub">BOM, SAV, passage à l'échelle</div>
+      </td>
+      <td>
+        <div class="sc sc-r">Elevé</div>
+        <div>40 à 60 EUR de hardware par site, plus logistique, SAV et gestion du cycle de vie. Coût total de possession terrain le plus élevé des trois.</div>
+      </td>
+      <td>
+        <div class="sc sc-g">Faible</div>
+        <div>Pas de coût hardware additionnel. Coût d'intégration, de provisioning et de support à évaluer selon la maturité de l'outillage interne.</div>
+      </td>
+      <td>
+        <div class="sc sc-g">Faible terrain</div>
+        <div>Pas de hardware additionnel. Certificat intégré au processus de fabrication.</div>
+        <div class="nuance">Le coût plateforme n'est pas nul : PKI, infrastructure de connexions persistantes, observabilité backend représentent un investissement à anticiper.</div>
+      </td>
+    </tr>
+
+  </tbody>
+</table>
+
+<!-- CONCLUSION -->
+<div class="conclusion">
+  <div class="concl-card">
+    <div class="concl-label">Architecture 01</div>
+    <div class="concl-title">VPN + NanoPi</div>
+    <p class="concl-text">Pertinent pour des environnements très conservateurs exigeant une séparation matérielle OT/IT dédiée. En dehors de ce cas, le coût opérationnel et la complexité terrain sont difficiles à justifier face aux deux autres options.</p>
   </div>
-
-  <table class="comp-table reveal">
-    <thead>
-      <tr>
-        <th>Critère</th>
-        <th class="col-np">VPN + NanoPi</th>
-        <th class="col-wg">WireGuard VPN</th>
-        <th class="col-ws">WebSocket + mTLS</th>
-      </tr>
-    </thead>
-    <tbody>
-
-      <tr>
-        <td>
-          <div class="crit-name">Facilité d'industrialisation</div>
-          <div class="crit-sub">Production, stock, logistique</div>
-        </td>
-        <td>
-          <div class="score score-bad">Difficile</div>
-          <div class="cell-content">Hardware supplémentaire à produire, stocker, livrer et maintenir sur chaque site.</div>
-        </td>
-        <td>
-          <div class="score score-mid">Modéré</div>
-          <div class="cell-content">Pas de hardware additionnel, mais la configuration VPN doit être standardisée et provisionnée de manière fiable pour chaque déploiement.</div>
-        </td>
-        <td>
-          <div class="score score-good">Simple</div>
-          <div class="cell-content">Certificat X.509 gravé en usine sur chaque Master. Rien d'autre à provisionner. Le processus de fabrication absorbe toute la complexité.</div>
-        </td>
-      </tr>
-
-      <tr>
-        <td>
-          <div class="crit-name">Facilité d'installation</div>
-          <div class="crit-sub">Expérience installateur terrain</div>
-        </td>
-        <td>
-          <div class="score score-bad">Complexe</div>
-          <div class="cell-content">Deux équipements à poser, raccorder et configurer sur site. Paramétrage réseau obligatoire. Chaque installation est unique.</div>
-        </td>
-        <td>
-          <div class="score score-mid">Acceptable</div>
-          <div class="cell-content">Pas de boîtier supplémentaire, mais la configuration des clés WireGuard et des endpoints réseau requiert une compétence technique.</div>
-        </td>
-        <td>
-          <div class="score score-good">Plug &amp; Play</div>
-          <div class="cell-content">Brancher le câble réseau et alimenter. Le Master se connecte seul à ComplyStation. Zéro configuration réseau requise de la part de l'installateur.</div>
-        </td>
-      </tr>
-
-      <tr>
-        <td>
-          <div class="crit-name">Sécurité</div>
-          <div class="crit-sub">Authentification, chiffrement, robustesse</div>
-        </td>
-        <td>
-          <div class="score score-good">Solide</div>
-          <div class="cell-content">Tunnel chiffré, isolation OT/IT physique possible. Rassurant pour les DSI industriels. Sécurité dépendante de la configuration VPN sur le NanoPi.</div>
-        </td>
-        <td>
-          <div class="score score-good">Très solide</div>
-          <div class="cell-content">Chiffrement moderne (ChaCha20, Curve25519). Protocole audité et intégré au kernel Linux. Très robuste techniquement.</div>
-        </td>
-        <td>
-          <div class="score score-good">Niveau industriel</div>
-          <div class="cell-content">TLS 1.3 + certificat X.509 unique par device gravé en usine (mTLS). Anti-rejeu applicatif. Révocation immédiate possible. Niveau équivalent à Kisi, référence du marché.</div>
-        </td>
-      </tr>
-
-      <tr>
-        <td>
-          <div class="crit-name">Résilience de l'installation</div>
-          <div class="crit-sub">Fiabilité, points de défaillance</div>
-        </td>
-        <td>
-          <div class="score score-bad">Risquée</div>
-          <div class="cell-content">Le NanoPi est un point de défaillance supplémentaire sur chaque site. Panne hardware, mise à jour ratée ou corruption du système = site hors ligne.</div>
-        </td>
-        <td>
-          <div class="score score-good">Bonne</div>
-          <div class="cell-content">Pas de hardware intermédiaire. Le firmware WireGuard est stable. La résilience dépend uniquement du Master et de la connexion internet.</div>
-        </td>
-        <td>
-          <div class="score score-good">Bonne</div>
-          <div class="cell-content">Pas de hardware intermédiaire. Reconnexion automatique avec backoff exponentiel. Les décisions d'accès restent 100% locales même en cas de coupure.</div>
-        </td>
-      </tr>
-
-      <tr>
-        <td>
-          <div class="crit-name">Pilotage à distance</div>
-          <div class="crit-sub">Supervision, maintenance, SAV</div>
-        </td>
-        <td>
-          <div class="score score-mid">Possible</div>
-          <div class="cell-content">Accessible via le tunnel VPN. Mais le NanoPi doit lui-même être opérationnel et joignable — une couche de dépendance supplémentaire.</div>
-        </td>
-        <td>
-          <div class="score score-mid">Possible</div>
-          <div class="cell-content">Accès distant via le tunnel WireGuard. Fonctionnel mais nécessite que le tunnel soit établi et stable, ce qui dépend du réseau UDP du site.</div>
-        </td>
-        <td>
-          <div class="score score-good">Natif</div>
-          <div class="cell-content">ComplyStation voit l'état de chaque Master en permanence. Logs, alarmes, configuration — tout est accessible à distance sans aucune manipulation réseau.</div>
-        </td>
-      </tr>
-
-      <tr>
-        <td>
-          <div class="crit-name">Communication temps réel</div>
-          <div class="crit-sub">Bidirectionnel, latence, push</div>
-        </td>
-        <td>
-          <div class="score score-mid">Acceptable</div>
-          <div class="cell-content">Le temps réel est possible mais traverse deux tunnels successifs. La latence peut être dégradée, notamment pour les commandes d'ouverture à distance.</div>
-        </td>
-        <td>
-          <div class="score score-mid">Bonne</div>
-          <div class="cell-content">WireGuard est performant sur UDP. Temps réel correct, mais UDP peut être dépriori­sé ou dégradé sur certains réseaux industriels et enterprise.</div>
-        </td>
-        <td>
-          <div class="score score-good">Natif</div>
-          <div class="cell-content">WebSocket est conçu pour la communication bidirectionnelle persistante. Push immédiat dans les deux sens, sans polling. Latence minimale sur port 443 TCP.</div>
-        </td>
-      </tr>
-
-      <tr>
-        <td>
-          <div class="crit-name">Compatibilité réseau</div>
-          <div class="crit-sub">Firewalls enterprise &amp; industriels</div>
-        </td>
-        <td>
-          <div class="score score-mid">Variable</div>
-          <div class="cell-content">Dépend du protocole VPN configuré sur le NanoPi. Peut nécessiter des exceptions firewall spécifiques selon les environnements.</div>
-        </td>
-        <td>
-          <div class="score score-bad">Problématique</div>
-          <div class="cell-content">WireGuard fonctionne exclusivement en UDP. Ce protocole est fréquemment bloqué ou bridé dans les réseaux industriels et les environnements enterprise stricts.</div>
-        </td>
-        <td>
-          <div class="score score-good">Universelle</div>
-          <div class="cell-content">Port 443 TCP — identique au trafic HTTPS standard. Jamais bloqué, dans aucun environnement. Aucune exception firewall requise.</div>
-        </td>
-      </tr>
-
-      <tr>
-        <td>
-          <div class="crit-name">Coût &amp; scalabilité</div>
-          <div class="crit-sub">BOM, SAV, passage à l'échelle</div>
-        </td>
-        <td>
-          <div class="score score-bad">Elevé</div>
-          <div class="cell-content">40 à 60 EUR de hardware par site, plus logistique, SAV et gestion du cycle de vie du NanoPi. Le coût croît linéairement avec le nombre de sites.</div>
-        </td>
-        <td>
-          <div class="score score-good">Faible</div>
-          <div class="cell-content">Pas de coût hardware additionnel. La complexité de configuration peut générer des coûts d'installation et de support sur les sites problématiques.</div>
-        </td>
-        <td>
-          <div class="score score-good">Faible</div>
-          <div class="cell-content">Pas de coût hardware additionnel. Le certificat est intégré au processus de fabrication du Master. Scalabilité linéaire sans coût marginal par site.</div>
-        </td>
-      </tr>
-
-    </tbody>
-  </table>
-</div>
-
-<!-- VERDICT -->
-<div class="verdict reveal">
-  <div class="verdict-card">
-    <div class="verdict-label">Architecture 01</div>
-    <div class="verdict-title">VPN + NanoPi</div>
-    <p class="verdict-text">Rassure les DSI industriels habitués aux VPN et permet une isolation OT/IT physique. Mais le NanoPi crée un point de défaillance et un coût récurrent sur chaque site, incompatibles avec la promesse plug &amp; play de NovaPass et un déploiement à grande échelle.</p>
+  <div class="concl-card">
+    <div class="concl-label">Architecture 02</div>
+    <div class="concl-title">WireGuard VPN</div>
+    <p class="concl-text">Option très crédible si l'objectif est un accès réseau robuste, maintenable par des équipes infra, avec une cryptographie solide et peu de complexité logicielle métier. À privilégier si les contraintes UDP du terrain sont maîtrisées et vérifiées site par site.</p>
   </div>
-  <div class="verdict-card">
-    <div class="verdict-label">Architecture 02</div>
-    <div class="verdict-title">WireGuard VPN</div>
-    <p class="verdict-text">Techniquement élégant et sécurisé. L'absence de hardware supplémentaire est un avantage réel. Mais la dépendance à UDP est un risque opérationnel sérieux — un produit qui doit fonctionner partout ne peut pas reposer sur un protocole régulièrement bloqué en entreprise.</p>
-  </div>
-  <div class="verdict-card winner">
-    <div class="verdict-label">Architecture 03 — Recommandée</div>
-    <div class="verdict-title">WebSocket + mTLS</div>
-    <p class="verdict-text">Seule architecture qui répond simultanément aux trois exigences fondamentales de NovaPass : installation sans friction, communication temps réel bidirectionnelle, et sécurité de niveau industriel — sans aucun hardware intermédiaire ni configuration réseau sur site. WireGuard reste disponible en option pour les sites avec contraintes extrêmes.</p>
+  <div class="concl-card">
+    <div class="concl-label">Architecture 03</div>
+    <div class="concl-title">WebSocket + mTLS</div>
+    <p class="concl-text">Option la plus cohérente si l'objectif est un produit cloud plug &amp; play, orienté supervision continue et commande applicative native, avec un déploiement terrain minimal. Requiert une maîtrise sérieuse de la PKI et de l'infrastructure backend. WireGuard reste une option complémentaire valide pour les sites avec contraintes réseau spécifiques.</p>
   </div>
 </div>
 
 <!-- FOOTER -->
 <footer>
-  <div class="footer-brand">NovaPass — Dinec International</div>
-  <div class="footer-meta">Analyse architecture de communication — Mars 2026 — Confidentiel</div>
+  <div class="footer-l">Dinec International &mdash; Analyse interne &mdash; Confidentiel</div>
+  <div class="footer-l">Mars 2026</div>
 </footer>
 
-<script>
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) e.target.classList.add('visible');
-    });
-  }, { threshold: 0.05 });
-
-  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-</script>
 </body>
 </html>
