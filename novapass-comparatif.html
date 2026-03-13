@@ -158,7 +158,6 @@
     letter-spacing: 0.04em;
   }
 
-  /* Score badge */
   .sc {
     display: inline-block;
     font-family: 'Geist Mono', monospace;
@@ -175,7 +174,6 @@
   .sc-y { background: rgba(201,168,76,0.10); color: var(--yellow); border: 1px solid rgba(201,168,76,0.18); }
   .sc-r { background: rgba(184,64,64,0.10);  color: var(--red);    border: 1px solid rgba(184,64,64,0.18); }
 
-  /* Nuance note */
   .nuance {
     margin-top: 8px;
     padding-top: 8px;
@@ -184,6 +182,19 @@
     color: var(--dim);
     font-style: italic;
     line-height: 1.55;
+  }
+
+  /* SECTION DIVIDER */
+  .section-divider {
+    padding: 10px 72px;
+    background: var(--bg2);
+    border-top: 1px solid var(--line2);
+    border-bottom: 1px solid var(--line2);
+    font-family: 'Geist Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--dim);
   }
 
   /* CONCLUSION */
@@ -240,7 +251,7 @@
   }
 
   @media (max-width: 960px) {
-    header, footer { padding-left: 20px; padding-right: 20px; }
+    header, footer, .section-divider { padding-left: 20px; padding-right: 20px; }
     .arch-strip, .conclusion { grid-template-columns: 1fr; }
     .arch-card, .concl-card { border-right: none; border-bottom: 1px solid var(--line); padding: 14px 20px; }
     .concl-card:first-child, .concl-card:last-child { padding-left: 20px; padding-right: 20px; }
@@ -264,23 +275,24 @@
     <div class="arch-num">Architecture 01</div>
     <div class="arch-name">VPN + NanoPi</div>
     <div class="arch-tech">Routeur intermédiaire / Machine dédiée</div>
-    <div class="arch-desc">Une brique hardware supplémentaire installée sur chaque site entre le réseau local et le cloud. Elle gère le tunnel VPN et sert de passerelle.</div>
+    <div class="arch-desc">Brique hardware supplémentaire sur chaque site. Elle gère le tunnel VPN et sert de passerelle. Le Master communique avec le backend via HTTP REST classique.</div>
   </div>
   <div class="arch-card">
     <div class="arch-num">Architecture 02</div>
     <div class="arch-name">WireGuard VPN</div>
     <div class="arch-tech">Tunnel VPN logiciel / Peer-to-peer</div>
-    <div class="arch-desc">Protocole VPN moderne intégré dans le firmware du Master. Pas de hardware intermédiaire, mais une configuration réseau requise sur chaque site.</div>
+    <div class="arch-desc">Protocole VPN intégré dans le firmware du Master. Pas de hardware intermédiaire. Le Master communique avec le backend via HTTP REST classique à travers le tunnel.</div>
   </div>
   <div class="arch-card hl">
     <div class="arch-num">Architecture 03</div>
     <div class="arch-name">WebSocket + mTLS</div>
-    <div class="arch-tech">WSS / TLS 1.3 / Certificat X.509 par device</div>
-    <div class="arch-desc">Connexion WebSocket sécurisée initiée par le Master vers ComplyStation. Certificat gravé en usine. Aucune configuration réseau côté client en environnement standard.</div>
+    <div class="arch-tech">WSS / TLS 1.3 / Certificat X.509 par device / Architecture événementielle</div>
+    <div class="arch-desc">Connexion persistante bidirectionnelle initiée par le Master vers ComplyStation. Certificat gravé en usine. Impose une architecture event-driven côté backend.</div>
   </div>
 </div>
 
-<!-- COMPARISON TABLE -->
+<!-- TABLE — CRITÈRES RÉSEAU & DÉPLOIEMENT -->
+<div class="section-divider">Réseau &amp; Déploiement</div>
 <table class="comp-table">
   <thead>
     <tr>
@@ -308,7 +320,7 @@
       <td>
         <div class="sc sc-g">Bon — sous conditions</div>
         <div>Certificat X.509 gravé en usine. Très industrialisable pour un produit appliance/cloud à condition de maîtriser la PKI.</div>
-        <div class="nuance">La complexité ne disparaît pas : elle est déplacée vers la chaîne de fabrication (génération, injection, protection de la clé privée, révocation, renouvellement). Un investissement plateforme réel.</div>
+        <div class="nuance">La complexité est déplacée vers la chaîne de fabrication : génération, injection et protection de la clé privée (idéalement via une puce sécurisée type ATECC608), révocation, renouvellement. Un investissement plateforme réel, à ne pas sous-estimer.</div>
       </td>
     </tr>
 
@@ -334,21 +346,22 @@
 
     <tr>
       <td>
-        <div class="crit-name">Sécurité</div>
-        <div class="crit-sub">Authentification, chiffrement, robustesse</div>
+        <div class="crit-name">Compatibilité réseau</div>
+        <div class="crit-sub">Firewalls enterprise &amp; industriels</div>
       </td>
       <td>
-        <div class="sc sc-g">Solide</div>
-        <div>Tunnel chiffré, isolation OT/IT physique possible. Niveau dépendant de la qualité d'intégration et d'administration du boîtier intermédiaire.</div>
+        <div class="sc sc-y">Variable</div>
+        <div>Dépend du protocole VPN configuré sur le NanoPi. Peut nécessiter des exceptions firewall spécifiques.</div>
       </td>
       <td>
-        <div class="sc sc-g">Très solide</div>
-        <div>Chiffrement moderne (ChaCha20, Curve25519), protocole audité, intégré au kernel Linux. Excellent tunnel réseau sécurisé.</div>
+        <div class="sc sc-r">Risqué</div>
+        <div>WireGuard fonctionne exclusivement sur UDP. Dans des environnements très filtrés, l'UDP peut poser problème.</div>
+        <div class="nuance">Pas systématiquement bloquant, mais un risque réel à évaluer site par site avant de retenir cette architecture.</div>
       </td>
       <td>
-        <div class="sc sc-g">Très solide</div>
-        <div>TLS 1.3 + certificat X.509 unique par device (mTLS). Excellent canal applicatif fortement authentifié.</div>
-        <div class="nuance">WireGuard et WebSocket + mTLS ne sont pas comparables sur une même échelle : l'un est un tunnel réseau, l'autre une architecture applicative centrée sur l'identité du device. Les deux peuvent atteindre un niveau industriel s'ils sont bien implémentés.</div>
+        <div class="sc sc-g">Favorable</div>
+        <div>Port 443 TCP — identique au trafic HTTPS standard. Souvent le meilleur choix pour maximiser les chances de passage en sortie réseau.</div>
+        <div class="nuance">Proxy avec inspection TLS ou liste blanche FQDN peuvent nécessiter une exception même sur le port 443.</div>
       </td>
     </tr>
 
@@ -368,67 +381,47 @@
       <td>
         <div class="sc sc-g">Bonne</div>
         <div>Pas de hardware intermédiaire. Reconnexion automatique. Décisions d'accès 100% locales en cas de coupure réseau.</div>
-        <div class="nuance">La résilience dépend avant tout de l'implémentation : watchdog local, bufferisation, mode offline, rotation de certificats. Un système WireGuard bien conçu peut offrir une résilience équivalente.</div>
+        <div class="nuance">La résilience dépend de l'implémentation : watchdog local, bufferisation, mode offline, rotation de certificats. Un système WireGuard bien conçu peut offrir une résilience équivalente.</div>
       </td>
     </tr>
 
     <tr>
       <td>
-        <div class="crit-name">Pilotage à distance</div>
-        <div class="crit-sub">Supervision, maintenance, SAV</div>
+        <div class="crit-name">Sécurité</div>
+        <div class="crit-sub">Authentification, chiffrement, robustesse</div>
+      </td>
+      <td>
+        <div class="sc sc-g">Solide</div>
+        <div>Tunnel chiffré, isolation OT/IT physique possible. Niveau dépendant de la qualité d'intégration du boîtier intermédiaire.</div>
+      </td>
+      <td>
+        <div class="sc sc-g">Très solide</div>
+        <div>Chiffrement moderne (ChaCha20, Curve25519), protocole audité, intégré au kernel Linux. Excellent tunnel réseau sécurisé.</div>
+      </td>
+      <td>
+        <div class="sc sc-g">Très solide</div>
+        <div>TLS 1.3 + certificat X.509 unique par device (mTLS). Excellent canal applicatif fortement authentifié.</div>
+        <div class="nuance">WireGuard et WebSocket + mTLS sont deux modèles différents : l'un est un tunnel réseau, l'autre une architecture applicative centrée sur l'identité du device. Les deux peuvent atteindre un niveau industriel s'ils sont bien implémentés.</div>
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        <div class="crit-name">Pilotage &amp; temps réel</div>
+        <div class="crit-sub">Supervision, commandes, événements</div>
       </td>
       <td>
         <div class="sc sc-y">Possible</div>
-        <div>Accessible via le tunnel VPN, mais le NanoPi doit lui-même être opérationnel — couche de dépendance supplémentaire.</div>
+        <div>Accessible via le tunnel VPN. Le NanoPi doit être opérationnel — couche de dépendance supplémentaire.</div>
       </td>
       <td>
         <div class="sc sc-y">Possible</div>
-        <div>Accès distant via le tunnel WireGuard. Fournit un transport réseau, mais pas les états métier, logs et alarmes applicatifs nativement.</div>
+        <div>Accès distant via le tunnel. WireGuard fournit un transport réseau, pas les états métier et alarmes applicatifs nativement.</div>
       </td>
       <td>
         <div class="sc sc-g">Natif</div>
-        <div>ComplyStation voit l'état de chaque Master en permanence. Logs, alarmes, configuration accessibles sans manipulation réseau. Meilleur choix pour une télégestion applicative native et continue.</div>
-      </td>
-    </tr>
-
-    <tr>
-      <td>
-        <div class="crit-name">Communication temps réel</div>
-        <div class="crit-sub">Bidirectionnel, latence, push</div>
-      </td>
-      <td>
-        <div class="sc sc-y">Acceptable</div>
-        <div>Possible mais traverse une couche intermédiaire. Latence potentiellement dégradée pour les commandes à distance.</div>
-      </td>
-      <td>
-        <div class="sc sc-y">Bonne</div>
-        <div>WireGuard est performant. Très bon transport temps réel pour du réseau encapsulé, si l'UDP est disponible et stable.</div>
-      </td>
-      <td>
-        <div class="sc sc-g">Natif</div>
-        <div>WebSocket est conçu pour la communication bidirectionnelle persistante. Push immédiat dans les deux sens, sans polling.</div>
-        <div class="nuance">La latence réelle dépend de la topologie réseau, de la qualité du lien et du backend — pas uniquement du protocole.</div>
-      </td>
-    </tr>
-
-    <tr>
-      <td>
-        <div class="crit-name">Compatibilité réseau</div>
-        <div class="crit-sub">Firewalls enterprise &amp; industriels</div>
-      </td>
-      <td>
-        <div class="sc sc-y">Variable</div>
-        <div>Dépend du protocole VPN configuré sur le NanoPi. Peut nécessiter des exceptions firewall spécifiques selon les environnements.</div>
-      </td>
-      <td>
-        <div class="sc sc-r">Risqué</div>
-        <div>WireGuard fonctionne exclusivement sur UDP. Dans des environnements très filtrés, l'UDP peut poser problème.</div>
-        <div class="nuance">L'ampleur varie selon les sites. Pas systématiquement bloquant, mais un risque réel à évaluer terrain par terrain avant de retenir cette architecture.</div>
-      </td>
-      <td>
-        <div class="sc sc-g">Favorable</div>
-        <div>Port 443 TCP — identique au trafic HTTPS standard. Souvent le meilleur choix pour maximiser les chances de passage en sortie réseau.</div>
-        <div class="nuance">Pas une universalité absolue : proxy avec inspection TLS ou liste blanche FQDN peuvent nécessiter une exception même sur le port 443.</div>
+        <div>ComplyStation voit l'état de chaque Master en permanence. Push immédiat dans les deux sens, sans polling. Meilleur choix pour une télégestion applicative native et continue.</div>
+        <div class="nuance">La latence réelle dépend de la topologie réseau et du backend, pas uniquement du protocole.</div>
       </td>
     </tr>
 
@@ -439,17 +432,85 @@
       </td>
       <td>
         <div class="sc sc-r">Elevé</div>
-        <div>40 à 60 EUR de hardware par site, plus logistique, SAV et gestion du cycle de vie. Coût total de possession terrain le plus élevé des trois.</div>
+        <div>40 à 60 EUR de hardware par site, plus logistique, SAV et gestion du cycle de vie. Coût total de possession le plus élevé des trois.</div>
       </td>
       <td>
         <div class="sc sc-g">Faible</div>
-        <div>Pas de coût hardware additionnel. Coût d'intégration, de provisioning et de support à évaluer selon la maturité de l'outillage interne.</div>
+        <div>Pas de coût hardware additionnel. Coût d'intégration et de support à évaluer selon la maturité de l'outillage interne.</div>
       </td>
       <td>
         <div class="sc sc-g">Faible terrain</div>
         <div>Pas de hardware additionnel. Certificat intégré au processus de fabrication.</div>
-        <div class="nuance">Le coût plateforme n'est pas nul : PKI, infrastructure de connexions persistantes, observabilité backend représentent un investissement à anticiper.</div>
+        <div class="nuance">Coût plateforme non nul : PKI, infrastructure de connexions persistantes, observabilité backend.</div>
       </td>
+    </tr>
+
+  </tbody>
+</table>
+
+<!-- TABLE — COMPLEXITÉ DE DÉVELOPPEMENT -->
+<div class="section-divider">Complexité de développement applicatif</div>
+<table class="comp-table">
+  <thead>
+    <tr>
+      <th>Critère</th>
+      <th>VPN + NanoPi</th>
+      <th>WireGuard VPN</th>
+      <th>WebSocket + mTLS</th>
+    </tr>
+  </thead>
+  <tbody>
+
+    <tr>
+      <td>
+        <div class="crit-name">Architecture Master → Backend</div>
+        <div class="crit-sub">Modèle de communication applicatif</div>
+      </td>
+      <td>
+        <div class="sc sc-g">REST / MVC classique</div>
+        <div>Le Master envoie des appels HTTP POST standards au backend à travers le tunnel. Architecture MVC connue, facile à tester et à déboguer.</div>
+      </td>
+      <td>
+        <div class="sc sc-g">REST / MVC classique</div>
+        <div>Idem VPN + NanoPi. Le tunnel WireGuard est transparent pour l'application : le Master fait des appels HTTP REST standard. Aucun changement de paradigme applicatif.</div>
+      </td>
+      <td>
+        <div class="sc sc-r">Event-Driven — nouveau paradigme</div>
+        <div>Impose une architecture événementielle entre le Master et le backend. Tous les messages arrivent sur un seul canal persistant : il faut parser chaque message pour savoir s'il s'agit d'une alarme, d'un log, d'un acquittement.</div>
+        <div class="nuance">Le routage automatique par URL (REST) disparaît. Le routage des messages devient manuel dans le code. L'asynchronisme complet augmente la complexité et les risques de bugs. Une partie de la complexité réseau est déplacée dans l'applicatif.</div>
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        <div class="crit-name">Maîtrise technologique</div>
+        <div class="crit-sub">Courbe d'apprentissage équipe</div>
+      </td>
+      <td>
+        <div class="sc sc-g">Maîtrisé</div>
+        <div>HTTP REST est une technologie connue de l'équipe. Développement, tests et maintenance dans un cadre familier.</div>
+      </td>
+      <td>
+        <div class="sc sc-g">Maîtrisé</div>
+        <div>Côté applicatif, identique à une API REST standard. La nouveauté est limitée à l'intégration de WireGuard dans le firmware, pas dans le backend.</div>
+      </td>
+      <td>
+        <div class="sc sc-y">A acquérir</div>
+        <div>L'architecture event-driven sur WebSocket n'est pas encore maîtrisée par l'équipe. Courbe d'apprentissage réelle, risque de bugs accru en phase initiale.</div>
+        <div class="nuance">Ce n'est pas une impasse — c'est une technologie mature et bien documentée. Mais le coût d'apprentissage est un facteur de risque projet à intégrer dans le planning.</div>
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        <div class="crit-name">Backend → Frontend (dashboard)</div>
+        <div class="crit-sub">Affichage temps réel opérateur</div>
+      </td>
+      <td>
+        <div class="crit-sub" style="color:var(--muted); font-size:13px; font-style:normal;">Dans les trois cas, la communication entre le backend et le dashboard ComplyStation se fera via <strong style="color:var(--text); font-weight:500">SignalR</strong> — technologie Microsoft éprouvée pour le push temps réel vers le navigateur. Ce segment est identique quelle que soit l'architecture choisie côté Master.</div>
+      </td>
+      <td></td>
+      <td></td>
     </tr>
 
   </tbody>
@@ -460,17 +521,17 @@
   <div class="concl-card">
     <div class="concl-label">Architecture 01</div>
     <div class="concl-title">VPN + NanoPi</div>
-    <p class="concl-text">Pertinent pour des environnements très conservateurs exigeant une séparation matérielle OT/IT dédiée. En dehors de ce cas, le coût opérationnel et la complexité terrain sont difficiles à justifier face aux deux autres options.</p>
+    <p class="concl-text">Pertinent pour des environnements très conservateurs exigeant une séparation matérielle OT/IT. Architecture REST familière côté développement. Difficile à justifier à grande échelle en raison du coût hardware et de la complexité terrain.</p>
   </div>
   <div class="concl-card">
     <div class="concl-label">Architecture 02</div>
     <div class="concl-title">WireGuard VPN</div>
-    <p class="concl-text">Option très crédible si l'objectif est un accès réseau robuste, maintenable par des équipes infra, avec une cryptographie solide et peu de complexité logicielle métier. À privilégier si les contraintes UDP du terrain sont maîtrisées et vérifiées site par site.</p>
+    <p class="concl-text">Option très crédible : cryptographie solide, pas de hardware intermédiaire, et architecture REST conservée côté applicatif — effort de développement nettement plus faible que WebSocket. Risque principal : la dépendance à UDP dans les environnements réseau filtrés.</p>
   </div>
   <div class="concl-card">
     <div class="concl-label">Architecture 03</div>
     <div class="concl-title">WebSocket + mTLS</div>
-    <p class="concl-text">Option la plus cohérente si l'objectif est un produit cloud plug &amp; play, orienté supervision continue et commande applicative native, avec un déploiement terrain minimal. Requiert une maîtrise sérieuse de la PKI et de l'infrastructure backend. WireGuard reste une option complémentaire valide pour les sites avec contraintes réseau spécifiques.</p>
+    <p class="concl-text">Option la plus cohérente pour un produit cloud plug &amp; play avec supervision native. Mais elle impose un changement de paradigme applicatif (event-driven) que l'équipe ne maîtrise pas encore, et une infrastructure PKI sérieuse. Ces deux points sont des risques projet réels à anticiper, pas des obstacles définitifs.</p>
   </div>
 </div>
 
